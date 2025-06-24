@@ -57,12 +57,12 @@ The identity type must be assigned the **Monitoring Metrics Publisher role** at 
 Use an existing Azure VM, or create an new Azure VM.
 We want to send the **TDDCustomMetric custom metric** to Azure Monitor Metrics. Azure VM supports the usage of managed identities, the identity can be enabled when creating the VM or after the creation process.
 
-<img src="https://raw.githubusercontent.com/kdewinter/tdd-azd-monitor/refs/heads/main/demoguide/Monitor/screenshot1.png" alt="System assigned managed identity" style="width:70%;">
+<img src="./Monitor/screenshot1.png" alt="System assigned managed identity" style="width:70%;">
 <br></br>
 
 After the VM is created and its system-managed identity associated, we will assign it the Monitoring Metrics Publisher role.
 
-<img src="https://raw.githubusercontent.com/kdewinter/tdd-azd-monitor/refs/heads/main/demoguide/Monitor/screenshot2.png" alt="Monitoring Metrics Publisher role assignment" style="width:70%;">
+<img src="./Monitor/screenshot2.png" alt="Monitoring Metrics Publisher role assignment" style="width:70%;">
 <br></br>
 
 
@@ -130,12 +130,12 @@ curl -X POST 'https://eastus2.monitoring.azure.com/$azure_resource_id/metrics' \
 
 The simplest way to validate it is to check if the custom metric is visible through the Azure portal.
 
-<img src="https://raw.githubusercontent.com/kdewinter/tdd-azd-monitor/refs/heads/main/demoguide/Monitor/screenshot3.png" alt="Metric Namespace and the custom Metric name" style="width:70%;">
+<img src="./Monitor/screenshot3.png" alt="Metric Namespace and the custom Metric name" style="width:70%;">
 <br></br>
 
 Note that since the created metric is multidimensional, there is an option to split the data by the dimension name, as shown next.
 
-<img src="https://raw.githubusercontent.com/kdewinter/tdd-azd-monitor/refs/heads/main/demoguide/Monitor/screenshot4.png" alt="Dimension metric values" style="width:70%;">
+<img src="./Monitor/screenshot4.png" alt="Dimension metric values" style="width:70%;">
 <br></br>
 
 
@@ -145,7 +145,7 @@ Azure Monitor provides a REST API called Logs Ingestion API for sending logs to 
 
 Submitting custom logs requires a more complex process. It starts with the obtention of the required authentication tokens to be able to submit the information. After that, we need to enable a data collection endpoint (DCE) inside Azure Monitor that would be configured to receive our data. Our logs could go into a specific processing stage before the information is stored inside Log Analytics; these transformations are defined through a DCR. After the information is ready, we can decide whether to store that information inside an existing Azure Monitor Log Analytics table or use a custom one. 
 
-<img src="https://raw.githubusercontent.com/kdewinter/tdd-azd-monitor/refs/heads/main/demoguide/Monitor/screenshot5.png" alt="dcr-flow-diagram" style="width:70%;">
+<img src="./Monitor/screenshot5.png" alt="dcr-flow-diagram" style="width:70%;">
 <br></br>
 
 If the source is an Azure VM wanting to send logs via the Logs Ingestion API, you can simply use an Azure-managed identity like in the previous section.
