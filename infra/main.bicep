@@ -9,8 +9,6 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
-var abbrs = loadJsonContent('./abbreviations.json')
-
 // Tags that should be applied to all resources.
 // 
 // Note that 'azd-service-name' tags should be applied separately to service host resources.
@@ -19,7 +17,7 @@ var abbrs = loadJsonContent('./abbreviations.json')
 var tags = {
   'azd-env-name': environmentName
 }
-var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
+// var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 
 // This deploys the Resource Group
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
@@ -28,17 +26,50 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   tags: tags
 }
 
-// Add resources to be provisioned below. This can be actual resources, or if you follow the modular approach, create a module and point to the module.bicep file, like this example:
-//module trafficmgr './trafficmgr.bicep' = {
-//  name: 'resources'
-//  scope: rg
-//  params: {
-//    uniqueDnsName: 'tmlab-${resourceToken}'
-//    location: location
-//    tags: tags
-//    environmentName: environmentName
-//  }
-//}
+// Add resources to be provisioned below.
+module logAnalytics './monitor/loganalytics.bicep' = {
+  name: 'resources'
+  scope: rg
+  params: {
+    name: 'law-tdd-monitor'
+    customTableName: 'CustomEvents_CL'
+    location: location
+    tags: tags
+  }
+}
+
+module applicationInsights './monitor/applicationinsights.bicep' = {
+  name: 'applicationInsights'
+  scope: rg
+  params: {
+    name: 'appinsights-tdd-monitor'
+    location: location
+    tags: tags
+    logAnalyticsWorkspaceId: logAnalytics.outputs.id
+  }
+}
+
+module dataCollectionEndpoint './monitor/datacollectionendpoint.bicep' = {
+  name: 'dataCollectionEndpoint'
+  scope: rg
+  params: {
+    location: location
+    dataCollectionEndpointName: 'dce-tdd-logs-ingestion'
+  }
+}
+
+module dataCollectionRule './monitor/datacollectionrule.bicep' = {
+  name: 'dataCollectionRule'
+  scope: rg
+  params: {
+    location: location
+    dataCollectionRuleName: 'dcr-tdd-monitor'
+    dataCollectionEndpointID: dataCollectionEndpoint.outputs.dataCollectionEndpointId
+    workspaceName: logAnalytics.outputs.name
+    workspaceResourceID: logAnalytics.outputs.id
+    customTableName: logAnalytics.outputs.customTableName
+  }
+}
 
 // Add outputs from the deployment here, if needed.
 //
@@ -50,3 +81,4 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
 // To see these outputs, run `azd env get-values`,  or `azd env get-values --output json` for json output.
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
+output DCR_IMMUTABLE_ID string = dataCollectionRule.outputs.dataCollectionImmutableId
