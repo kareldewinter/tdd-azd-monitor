@@ -1,6 +1,8 @@
-# AZD Trainer-Demo-Deploy Starter template
+# tdd-azd-monitor
 
-This template could be used as a starting point for creating your own AZD-compatible templates, which you will contribute to [Trainer-Demo-Deploy](https://aka.ms/trainer-demo-deploy). 
+Trainer-Demo-Deploy scenario for Azure Monitor including system metrics, custom logs, and external telemetry.
+
+This template provides Azure Monitor capabilities for monitoring applications and infrastructure.
 
 ## ⬇️ Installation
 - [Azure Developer CLI - AZD](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
@@ -13,23 +15,19 @@ This template could be used as a starting point for creating your own AZD-compat
 
 1. Create a new folder on your machine.
 ```
-mkdir tdd-azd-starter
+mkdir tdd-azd-monitor
 ```
 2. Next, navigate to the new folder.
 ```
-cd tdd-azd-starter
+cd tdd-azd-monitor
 ```
 3. Next, run `azd init` to initialize the deployment.
 ```
-azd init -t petender/tdd-azd-starter
+azd init -t kareldewinter/tdd-azd-monitor
 ```
-4. Copy the starter template into its own directory and modify the template.
+4. Deploy the Azure Monitor resources using azd.
 ```
-Update the main.bicep and resources.bicep with your own resource information
-```
-5. Update the azure.yaml metadata
-```
-Update the name and metadata.template parameters in the azure.yaml, with your preferred scenario name, e.g. tdd-azd-trafficmgr
+azd up
 ```
 
 ## 🚀 Push the scenario to your own GitHub:
@@ -38,7 +36,4 @@ Update the name and metadata.template parameters in the azure.yaml, with your pr
 
 2. Once available, add the necessary "additional demo scenario artifacts" (demoguide.md, demoguide screenshots, scenario architecture diagram,...) 
 
-3. With all template details and demo artifacts available in the repo, follow the steps on how to [Contribute](https://microsoftlearning.github.io/trainer-demo-deploy/docs/contribute) to Trainer-Demo-Deploy, to get your scenario published into the catalog.
-
-
- 
+3. With all template details and demo artifacts available in the repo, follow the steps on how to [Contribute](https://microsoftlearning.github.io/trainer-demo-deploy/docs/contribute) to get your scenario published into the catalog.
