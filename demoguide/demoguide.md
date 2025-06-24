@@ -35,7 +35,7 @@ Provide a bullet list of the Resource Group and all deployed resources with name
 
 <add a screenshot of the deployed Resource Group with resources>
 
-<img src="https://raw.githubusercontent.com/kdewinter/tdd-azd-monitor/refs/heads/main/demoguide/Monitor/screenshot6.png" alt="Overview deployed resources" style="width:70%;">
+<img src="./Monitor/screenshot6.png" alt="Overview deployed resources" style="width:70%;">
 <br></br>
 
 
